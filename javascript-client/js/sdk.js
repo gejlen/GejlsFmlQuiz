@@ -129,26 +129,26 @@ const SDK = {
       SDK.Storage.remove("user");
       window.location.href = "login.html";
     },
-    login: (username, password, cb) => {
-      SDK.request({
-        data: {
-          username: username,
-          password: password
-        },
-        url: "/user/login/",
-        method: "POST"
-      }, (err, data) => {
+      login: (username, password, cb) => {
+          SDK.request({
+              url: "/user/login",
+              method: "POST",
+              data: {
+                  username: username,
+                  password: password
+              }
+          }, (err, data) => {
+              //On login-error
+              if (err) return cb(err);
 
-        //On login-error
-        if (err) return cb(err);
+              data = JSON.parse(data);
+              SDK.Storage.persist("type", data.type);
 
+              cb(null, data);
 
-        SDK.Storage.persist("user", data.type);
+          });
 
-        cb(null, data);
-
-      });
-    },
+      },
     loadNav: (cb) => {
       $("#nav-container").load("nav.html", () => {
         const currentUser = SDK.User.current();
@@ -167,7 +167,7 @@ const SDK = {
     }
   },
   Storage: {
-    prefix: "BookStoreSDK",
+    prefix: "DOEK Quiz",
     persist: (key, value) => {
       window.localStorage.setItem(SDK.Storage.prefix + key, (typeof value === 'object') ? JSON.stringify(value) : value)
     },
