@@ -54,13 +54,15 @@ const SDK = {
         findAll: (cb) => {
             SDK.request({
                 method: "GET",
-                url: "/courses",
-                headers: {
-                    filter: {
-                        include: ["courseTitel"]
-                    }
-                }
-            }, cb);
+                url: "/courses"
+
+            }, (err, data) => {
+              if (err) return cb(err);
+
+              data = JSON.parse(data);
+
+              cb(null, data);
+            });
         },
         create: (data, cb) => {
             SDK.request({
@@ -138,7 +140,8 @@ const SDK = {
         },
 
         findAll: (cb) => {
-            SDK.request({method: "GET", url: "/staffs"}, cb);
+            SDK.request({method: "GET",
+                url: "/user"}, cb);
         },
         current: () => {
             return SDK.Storage.load("user");
@@ -163,6 +166,7 @@ const SDK = {
 
                 data = JSON.parse(data);
                 SDK.Storage.persist("type", data.type);
+                SDK.Storage.persist("user", data.firstName);
 
                 cb(null, data);
 
@@ -174,11 +178,11 @@ const SDK = {
                 const currentUser = SDK.User.current();
                 if (currentUser) {
                     $(".navbar-right").html(`
-                  <li><a href="#" id="logout-link">Logout</a></li>
+                  <li><a href="login.html" id="logout-link">Logout</a></li>
                 `);
                 } else {
                     $(".navbar-right").html(`
-                  <li><a href="login.html">Log-in <span class="sr-only">(current)</span></a></li>
+             f     <li><a href="login.html">Log-in <span class="sr-only">(current)</span></a></li>
                 `);
                 }
                 $("#logout-link").click(() => SDK.User.logOut());

@@ -18,7 +18,7 @@ $(document).ready(() => {
       }
     });
 
-  });
+  });$
 
   $("#SignUp-button").click(() => {
 
