@@ -140,8 +140,10 @@ const SDK = {
         },
 
         findAll: (cb) => {
-            SDK.request({method: "GET",
-                url: "/user"}, cb);
+            SDK.request({
+                    method: "GET",
+                url: "/user"},
+                cb);
         },
         current: () => {
             return SDK.Storage.load("user");
