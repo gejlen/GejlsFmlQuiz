@@ -26,31 +26,7 @@ const SDK = {
 
     },
     Course: {
-        addToBasket: (book) => {
-            let basket = SDK.Storage.load("basket");
 
-            //Has anything been added to the basket before?
-            if (!basket) {
-                return SDK.Storage.persist("basket", [{
-                    count: 1,
-                    book: book
-                }]);
-            }
-
-            //Does the book already exist?
-            let foundBook = basket.find(b => b.book.id === book.id);
-            if (foundBook) {
-                let i = basket.indexOf(foundBook);
-                basket[i].count++;
-            } else {
-                basket.push({
-                    count: 1,
-                    book: book
-                });
-            }
-
-            SDK.Storage.persist("basket", basket);
-        },
         findAll: (cb) => {
             SDK.request({
                 method: "GET",
@@ -64,14 +40,7 @@ const SDK = {
               cb(null, data);
             });
         },
-        create: (data, cb) => {
-            SDK.request({
-                method: "POST",
-                url: "/books",
-                data: data,
-                headers: {authorization: SDK.Storage.load("tokenId")}
-            }, cb);
-        }
+
     },
     Author: {
         findAll: (cb) => {
@@ -175,6 +144,17 @@ const SDK = {
             });
 
         },
+        delete: (id, cb) => {
+            SDK.request({
+                    method: "DELETE",
+                    url: "/user/" + id,
+                },
+                (err) => {
+                    if (err) return cb(err);
+
+                    cb(null);
+                });
+        },
         loadNav: (cb) => {
             $("#nav-container").load("nav.html", () => {
                 const currentUser = SDK.User.current();
@@ -214,3 +194,21 @@ const SDK = {
 
 
 };
+
+  quiz: {
+
+      findAll: (cb) => {
+          SDK.request({
+              method: "GET",
+              url: "/courses"
+
+          }, (err, data) => {
+              if (err) return cb(err);
+
+              data = JSON.parse(data);
+
+              cb(null, data);
+          });
+
+      }
+  }
