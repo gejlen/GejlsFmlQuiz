@@ -190,25 +190,24 @@ const SDK = {
             remove: (key) => {
                 window.localStorage.removeItem(SDK.Storage.prefix + key);
             }
-        }
+        },
+    quiz: {
 
+        findAll: (id, cb) => {
+            SDK.request({
+                method: "GET",
+                url: ("/quiz/" + id),
+
+            }, (err, data) => {
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                cb(null, data);
+            });
+
+        }
+    }
 
 };
 
-  quiz: {
-
-      findAll: (cb) => {
-          SDK.request({
-              method: "GET",
-              url: "/courses"
-
-          }, (err, data) => {
-              if (err) return cb(err);
-
-              data = JSON.parse(data);
-
-              cb(null, data);
-          });
-
-      }
-  }

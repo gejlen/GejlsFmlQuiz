@@ -1,29 +1,21 @@
 $(document).ready(() => {
 
     SDK.User.loadNav();
-    const $quizValgEnd = $("#showQuiz-buttons");
 
+    const courseID = SDK.Storage.load("CourseId");
+    console.log(courseID);
 
-    SDK.Course.findAll((err, quizzes) => {
-        if (err) throw err;
-        quizzes.forEach(quiz => {
-            $quizValgEnd.append(`
-              <button class = "btn-success btn-block btn-lg" data-id=${quiz.quizId}>${quiz.quizTitel}>${course.courseId}</button>
-             `
-            );
+    const $quizButtons = $("#showQuiz-buttons");
 
-            $(".btn-block").on('click', function (e) {
-                let id = e.target.getAttribute('data-id');
-                if(id !== undefined) {
-                    SDK.Storage.persist('quizId', id);
-                    window.location.href = "TagQuiz.html"
-                }
-
-            })
-        });
+    SDK.quiz.findAll(courseID, (err, quiz) => {
+    if (err) throw err;
+    $("tableHead") .html("Quiz:");
+    quiz.forEach(quiz => {
+        $quizButtons.append(`
+        <dd>
+        <button class="btn btn-warning btn-block" id=${quiz.quizId}>${quiz.quizTitle} </button>
+        </dd>
+`);
     });
-
-
-
-
+    });
 });
