@@ -15,6 +15,7 @@ $(document).ready(() => {
         <dd>
         <button class="btn btn-warning btn-block" id=${quiz.quizId}>${quiz.quizTitle} </button>
         </dd>
+        
 `);
     });
     });

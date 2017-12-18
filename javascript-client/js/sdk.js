@@ -115,8 +115,10 @@ const SDK = {
                 cb);
         },
         current: () => {
-            return SDK.Storage.load("user");
-        },
+            return {
+                user: SDK.Storage.load("user"),
+                userId: SDK.Storage.load("userId")
+        }},
         logOut: () => {
             SDK.Storage.remove("tokenId");
             SDK.Storage.remove("userId");
@@ -138,7 +140,7 @@ const SDK = {
                 data = JSON.parse(data);
                 SDK.Storage.persist("type", data.type);
                 SDK.Storage.persist("user", data.firstName);
-
+                SDK.Storage.persist("userId", data.userId);
                 cb(null, data);
 
             });

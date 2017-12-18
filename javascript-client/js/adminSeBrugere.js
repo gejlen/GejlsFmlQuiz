@@ -1,6 +1,5 @@
 $(document).ready(() => {
     $('#deletionBoxUsers').hide();
-    $('#deleteUserButton').hide();
 
 
     if (SDK.Storage.load("type") === 2) {
@@ -10,10 +9,12 @@ $(document).ready(() => {
         $('#deleteUserButton').click((e) => {
             e.preventDefault();
             $('#deletionBoxUsers').toggle();
-            $("#deleteUser").click(() => {
 
+        });
+
+            $("#deleteuser").click(() => {
                 const deletionUserID = $('#deleteUserInput').val();
-                if (confirm('Er du nu helt sikker på at' + deletionUserID + "skal ud?")) {
+                if (confirm('Er du nu helt sikker på at ' + deletionUserID + " skal ud?")) {
                     SDK.User.delete(deletionUserID, (err) => {
 
                         if (err) {
@@ -33,7 +34,7 @@ $(document).ready(() => {
                 }
 
             });
-        });
+
 
 
         const body = $('#body');
@@ -52,4 +53,3 @@ $(document).ready(() => {
 });
 
 
-//data-id='${bruger.userId}

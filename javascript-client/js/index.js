@@ -8,9 +8,6 @@ $(document).ready(() => {
         $('#adminButton').show();
 
     }
-});
-$(document).ready(() => {
-    SDK.User.loadNav();
 
     $('#adminShowUsers').hide();
 
@@ -19,4 +16,27 @@ $(document).ready(() => {
         $('#adminShowUsers').show();
 
     }
+    let deletionId = SDK.Storage.load("userId");
+    console.log(deletionId);
+
+    $('#deleteMyUser').click(()=>{
+
+        SDK.User.delete(deletionId, (err) => {
+
+            if (err) {
+                alert("Brugeren blev ikke slettet da der skete en fejl! (" + err + ").");
+                deletionId;
+            } else {
+                alert("Brugeren"  + deletionId + "er ikke i blandt os mere!");
+                deletionId;
+
+            }
+
+        });
+
+
+
+    });
+
+
 });
