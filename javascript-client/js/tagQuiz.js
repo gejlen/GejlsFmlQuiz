@@ -17,6 +17,13 @@ $(document).ready(() => {
         </dd>
         
 `);
+        $(".btn-block").on('click', function (e) {
+           let quizId = e.target.getAttribute('id')
+           if(quizId !== undefined){
+               SDK.Storage.persist('watchQuizId', quizId)
+               window.location.href = "QuizStart.html"
+           }
+        })
     });
     });
 });

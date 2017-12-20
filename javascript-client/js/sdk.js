@@ -42,12 +42,22 @@ const SDK = {
         },
 
     },
-    Author: {
-        findAll: (cb) => {
-            SDK.request({method: "GET", url: "/authors"}, cb);
-        }
+    Choice: {
+        findAll: (id, cb) => {
+            SDK.request({
+                method: "GET",
+                url: "/choice/" + id,
+
+            }, (err, data) => {
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                cb(null, data);
+            });
+        },
     },
-    Order: {
+    Question: {
         create: (data, cb) => {
             SDK.request({
                 method: "POST",
@@ -56,15 +66,19 @@ const SDK = {
                 headers: {authorization: SDK.Storage.load("tokenId")}
             }, cb);
         },
-        findMine: (cb) => {
+        findAll: (id, cb) => {
             SDK.request({
                 method: "GET",
-                url: "/orders/" + SDK.User.current().id + "/allorders",
-                headers: {
-                    authorization: SDK.Storage.load("tokenId")
-                }
-            }, cb);
-        }
+                url: "/question/" + id,
+
+            }, (err, data) => {
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                cb(null, data);
+            });
+        },
     },
     User: {
         create: (newUsername, newPassword, firstName, lastName, cb) => {
