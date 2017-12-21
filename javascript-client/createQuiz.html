@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="lib/css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+
+
+    <meta charset="UTF-8">
+    <title>createQuiz</title>
+
+</head>
+<body>
+<div class="container">
+
+    <div class="row" id="nav-container"></div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="jumbotron">
+
+    <div id="createQuizForm">
+        <input type="text" name="quizname" placeholder="Skriv et QuizNavn" id="quizTitel">
+        <input type="button" value="Tilføj quiz titel" id="addQuizButton">
+        <br>
+    </div>
+
+    <div id="questionTitle">
+
+        <input type="text" placeholder="Titel for spørgsmål" id="NewQuestionText">
+        <input type="button" value="Tilføj spørgsmål" id="NewQuestionButton">
+        <br>
+
+    </div>
+
+    <div>
+        <input type="text" placeholder="Svarmulighed" id="NewChoice">
+        <input type="radio" id="radioTrue" name="answer" value="1">Rigtigt
+        <input type="radio" id="radioFalse" name="answer" value="0">Forkert
+        <br>
+        <input type="button" value="Tilføj svarmulighed" id="NewChoiceButton">
+    </div>
+
+</div>
+<script src="lib/js/jquery-3.2.1.js"></script>
+<script src="lib/js/bootstrap.js"></script>
+<script src="js/sdk.js"></script>
+<script src="js/createQuiz.js"></script>
+
+</body>
+</html>

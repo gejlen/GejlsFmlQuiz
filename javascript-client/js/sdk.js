@@ -2,17 +2,10 @@ const SDK = {
     serverURL: "http://localhost:8080/api",
     request: (options, cb) => {
 
-        let headers = {};
-        if (options.headers) {
-            Object.keys(options.headers).forEach((h) => {
-                headers[h] = (typeof options.headers[h] === 'object') ? JSON.stringify(options.headers[h]) : options.headers[h];
-            });
-        }
 
         $.ajax({
             url: SDK.serverURL + options.url,
             method: options.method,
-            headers: headers,
             contentType: "application/json",
             dataType: "json",
             data: JSON.stringify(options.data),
@@ -43,6 +36,26 @@ const SDK = {
 
     },
     Choice: {
+        create: (choiceTitle,answer,questionId, cb) => {
+            SDK.request({
+                method: "POST",
+                url: "/choice/",
+                data: {
+                    choiceTitle: choiceTitle,
+                    answer: answer,
+                    questionId: questionId
+                },
+
+            }, (err, data) => {
+
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                cb(null, data);
+            });
+        },
+
         findAll: (id, cb) => {
             SDK.request({
                 method: "GET",
@@ -58,13 +71,26 @@ const SDK = {
         },
     },
     Question: {
-        create: (data, cb) => {
+        create: (questionTitle,quizId, cb) => {
             SDK.request({
                 method: "POST",
-                url: "/orders",
-                data: data,
-                headers: {authorization: SDK.Storage.load("tokenId")}
-            }, cb);
+                url: "/question/",
+                data: {
+                    questionTitle: questionTitle,
+                    quizId: quizId
+                },
+
+            }, (err, data) => {
+
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                SDK.Storage.persist("questionId", data.questionId);
+
+
+                cb(null, data);
+            });
         },
         findAll: (id, cb) => {
             SDK.request({
@@ -125,8 +151,9 @@ const SDK = {
         findAll: (cb) => {
             SDK.request({
                     method: "GET",
-                url: "/user"},
-                cb);
+                url: "/user"
+
+                }, cb);
         },
         current: () => {
             return {
@@ -215,15 +242,48 @@ const SDK = {
                 url: ("/quiz/" + id),
 
             }, (err, data) => {
-                if (err) return cb(err);
 
+                if (err) return cb(err);
                 data = JSON.parse(data);
 
                 cb(null, data);
             });
 
-        }
-    }
+        },
+        delete: (id, cb) => {
+            SDK.request({
+                    method: "DELETE",
+                    url: "/quiz/" + id,
+                },
+                (err) => {
+                    if (err) return cb(err);
+
+                    cb(null);
+                });
+        },
+        create: (quizTitle, courseId, cb) => {
+            SDK.request({
+                method: "POST",
+                url: "/quiz/",
+                data: {
+                    quizTitle: quizTitle,
+                    courseId: courseId
+                },
+
+            }, (err, data) => {
+
+                if (err) return cb(err);
+
+                data = JSON.parse(data);
+
+                SDK.Storage.persist("quizID", data.quizId);
+
+
+                cb(null, data);
+            });
+        },
+    },
+
 
 };
 
